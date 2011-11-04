@@ -1,10 +1,103 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-<title>PhoneGap</title>
-<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
-</head>
-<body>
-<h1>Hello World</h1>
-</body>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <title>PhoneGap</title>
+        <link rel="stylesheet" href="jquery.mobile-1.0rc2.min.css" type="text/css">
+        <script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.0rc2.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/phonegap-1.1.0.min.js"></script>
+    </head>
+    <body>
+        <div data-role="page" data-theme="c" id="page-home">
+            <div data-role="header" data-position="fixed">
+                <h1>最近店家</h1>
+            </div>
+            <div data-role="content" id="content-manual" data-theme="c">
+                <ul data-role="listview" data-theme="g">
+                    <li>
+                        <a href="index.html" data-transition="fade" data-direction="reverse">
+                        <img src="images/album-bb.jpg" />
+                        <h3>Broken Bells</h3>
+                        <p>Broken Bells</p>
+                        </a>
+                        <ul>
+                            <li>test1</li>
+                            <li>test2</li>
+                            <li>test3</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="dialog/alert.html" data-rel="dialog" data-transition="slidedown">Open dialog</a>
+                    </li>
+                    <li><a href="index.html">
+                        <img src="images/album-bb.jpg" />
+                        <h3>Broken Bells</h3>
+                        <p>Broken Bells</p>
+                    </a></li>
+                    <li><a href="index.html">
+                        <img src="images/album-hc.jpg" />
+                        <h3>Warning</h3>
+                        <p>Hot Chip</p>
+                    </a></li>
+                    <li><a href="index.html">
+                        <img src="images/album-p.jpg" />
+                        <h3>Wolfgang Amadeus Phoenix</h3>
+                        <p>Phoenix</p>
+                    </a></li>
+                    <li><a href="index.html">
+                        <img src="images/album-ok.jpg" />
+                        <h3>Of The Blue Colour Of The Sky</h3>
+                        <p>Ok Go</p>
+                    </a></li>
+                    <li><a href="index.html">
+                        <img src="images/album-ws.jpg" />
+                        <h3>Elephant</h3>
+                        <p>The White Stripes</p>
+                    </a></li>
+                    <li><a href="index.html">
+                        <img src="images/album-rh.jpg" />
+                        <h3>Kid A</h3>
+                        <p>Radiohead</p>
+                    </a></li>
+                    <li><a href="index.html">
+                        <img src="images/album-xx.jpg" />
+                        <h3>XX</h3>
+                        <p>XX</p>
+                    </a></li>
+                    <li><a href="index.html">
+                        <img src="images/album-mg.jpg" />
+                        <h3>Congratulations</h3>
+                        <p>MGMT</p>
+                    </a></li>
+                    
+                    <li><a href="index.html">
+                        <img src="images/album-ag.jpg" />
+                        <h3>Ashes Grammar</h3>
+                        <p>A Sunny Day in Glasgow</p>
+                    </a></li>
+                    
+                    <li><a href="index.html">
+                        <img src="images/album-k.jpg" />
+                        <h3>Hot Fuss</h3>
+                        <p>Killers</p>
+                    </a></li>
+                    <li><a href="index.html">   
+                        <img src="images/album-af.jpg" />
+                        <h3>The Suburbs</h3>
+                        <p>Arcade Fire</p>
+                    </a></li>
+                 </ul>
+            </div>
+            <div data-role="footer" class="ui-bar" data-position="fixed">
+                <div data-role="controlgroup" data-type="horizontal">
+                    <a href="index.html" data-role="button" data-icon="delete">Remove</a>
+                    <a href="index.html" data-role="button" data-icon="plus">Add</a>
+                    <a href="index.html" data-role="button" data-icon="arrow-u">Up</a>
+                    <a href="index.html" data-role="button" data-icon="arrow-d">Down</a>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
