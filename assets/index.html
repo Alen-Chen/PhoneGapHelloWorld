@@ -4,25 +4,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <title>PhoneGap</title>
-        <link rel="stylesheet" href="jquery.mobile-1.0rc2.min.css" type="text/css">
-        <script type="text/javascript" src="js/jquery-1.7.min.js"></script>
-        <script type="text/javascript" src="js/jquery.mobile-1.0rc2.min.js"></script>
+        <link rel="stylesheet" href="jquery.mobile-1.0rc2.css" type="text/css">
+        <script type="text/javascript" charset="utf-8" src="js/jquery-1.7.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/phonegap-1.1.0.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/phonetest.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.0rc2.js"></script>
     </head>
     <body>
         <div data-role="page" data-theme="c" id="page-home">
             <div data-role="header" data-position="fixed">
                 <h1>Phonegap Test</h1>
             </div>
-            <div data-role="content" id="content-manual" data-theme="c">
+            <div data-role="content" data-theme="c">
                 Home
             </div>
             <div data-role="footer" data-position="fixed" data-id="footer">
                 <div data-role="navbar" data-iconpos="top">
                     <ul>
-                        <li><a href="#page-home" data-transition="slide" data-icon="home" class="ui-btn-active ui-state-persist">Home</a></li>
-                        <li><a href="#page-connection" data-transition="slide" data-icon="star">Connection</a></li>
-                        <li><a href="#page-device" data-transition="slide" data-icon="info">Device</a></li>
+                        <li><a href="#page-home" data-icon="home" class="ui-btn-active ui-state-persist">Home</a></li>
+                        <li><a href="#page-connection" data-icon="star">Connect</a></li>
+                        <li><a href="#page-device" data-icon="gear">Device</a></li>
+                        <li><a href="#page-about" data-icon="info">About</a></li>
                     </ul>
                 </div>
             </div>
@@ -31,15 +33,16 @@
             <div data-role="header" data-position="fixed">
                 <h1>Connection</h1>
             </div>
-            <div data-role="content" id="content-manual" data-theme="c">
+            <div data-role="content" data-theme="c">
                 Connection
             </div>
             <div data-role="footer" data-position="fixed" data-id="footer">
                 <div data-role="navbar" data-iconpos="top">
                     <ul>
-                        <li><a href="#page-home" data-transition="slide" data-icon="home">Home</a></li>
-                        <li><a href="#page-connection" data-transition="slide" data-icon="star" class="ui-btn-active ui-state-persist">Connection</a></li>
-                        <li><a href="#page-device" data-transition="slide" data-icon="info">Device</a></li>
+                        <li><a href="#page-home" data-icon="home">Home</a></li>
+                        <li><a href="#page-connection" data-icon="star" class="ui-btn-active ui-state-persist">Connect</a></li>
+                        <li><a href="#page-device" data-icon="gear">Device</a></li>
+                        <li><a href="#page-about" data-icon="info">About</a></li>
                     </ul>
                 </div>
             </div>
@@ -48,15 +51,55 @@
             <div data-role="header" data-position="fixed">
                 <h1>Device</h1>
             </div>
-            <div data-role="content" id="content-manual" data-theme="c">
+            <div data-role="content" data-theme="c">
                 Device Information
             </div>
             <div data-role="footer" data-position="fixed" data-id="footer">
                 <div data-role="navbar" data-iconpos="top">
                     <ul>
-                        <li><a href="#page-home" data-transition="slide" data-icon="home">Home</a></li>
-                        <li><a href="#page-connection" data-transition="slide" data-icon="star">Connection</a></li>
-                        <li><a href="#page-device" data-transition="slide" data-icon="info" class="ui-btn-active ui-state-persist">Device</a></li>
+                        <li><a href="#page-home" data-icon="home">Home</a></li>
+                        <li><a href="#page-connection" data-icon="star">Connect</a></li>
+                        <li><a href="#page-device" data-icon="gear" class="ui-btn-active ui-state-persist">Device</a></li>
+                        <li><a href="#page-about" data-icon="info">About</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div data-role="page" data-theme="c" id="page-about">
+            <div data-role="header" data-position="fixed">
+                <h1>About</h1>
+            </div>
+            <div data-role="content" data-theme="c">
+                <div data-role="collapsible" data-theme="c" data-content-theme="c">
+                    <h3>I'm a nested collapsible with a child collapsible</h3>
+                    <p>I'm a child collapsible.</p>
+                    <div data-role="collapsible" data-theme="d" data-content-theme="d">
+                        <h3>Nested inside again.</h3>
+                        <p>Three levels deep now.</p>
+                        <div data-role="collapsible" data-theme="c" data-content-theme="c">
+                            <h3>I'm a nested collapsible with a child collapsible</h3>
+                            <p>I'm a child collapsible.</p>
+                            <div data-role="collapsible-set" data-theme="c" data-content-theme="d">
+                                <div data-role="collapsible" data-theme="d" data-content-theme="d">
+                                    <h3>Nested inside again.</h3>
+                                    <p>Three levels deep now.</p>
+                                </div><!-- /section 1A -->
+                                <div data-role="collapsible" data-theme="d" data-content-theme="d">
+                                    <h3>Nested inside again.</h3>
+                                    <p>Three levels deep now.</p>
+                                </div><!-- /section 1A -->
+                            </div>
+                       </div><!-- /section 1 -->
+                    </div><!-- /section 1A -->
+                </div><!-- /section 1 -->
+            </div>
+            <div data-role="footer" data-position="fixed" data-id="footer">
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#page-home" data-icon="home">Home</a></li>
+                        <li><a href="#page-connection" data-icon="star">Connect</a></li>
+                        <li><a href="#page-device" data-icon="gear">Device</a></li>
+                        <li><a href="#page-about" data-icon="info" class="ui-btn-active ui-state-persist">About</a></li>
                     </ul>
                 </div>
             </div>
