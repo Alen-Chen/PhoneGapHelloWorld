@@ -22,25 +22,60 @@
                 <div data-role="navbar" data-iconpos="top">
                     <ul>
                         <li><a href="#page-home" data-icon="home" class="ui-btn-active ui-state-persist">Home</a></li>
-                        <li><a href="#page-connection" data-icon="star">Connect</a></li>
+                        <li><a href="#page-info" data-icon="star">Info</a></li>
                         <li><a href="#page-device" data-icon="gear">Device</a></li>
                         <li><a href="#page-about" data-icon="info">About</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div data-role="page" data-theme="c" id="page-connection">
+        <div data-role="page" data-theme="c" id="page-info">
             <div data-role="header" data-position="fixed">
-                <h1>Connection</h1>
+                <h1>Info</h1>
             </div>
             <div data-role="content" data-theme="c">
-                Connection
+                <ul data-role="listview">
+                    <li data-role="list-divider">Network Information</li>
+                    <li>
+                        <h3>Current Type</h3>
+                        <p><strong id="connection_type">Unknown</strong></p>
+                    </li>
+                    <li data-role="list-divider">Geolocation</li>
+                    <li>
+                        <h3>Current Position</h3>
+                        <p><strong id="location_lat_lng">Unknown</strong></p>
+                    </li>
+                    <li>
+                        <h3>Altitude</h3>
+                        <p><strong id="location_altitude">Unknown</strong></p>
+                        <p>Height of the position in meters above the ellipsoid.</p>
+                    </li>
+                    <li>
+                        <h3>Accuracy</h3>
+                        <p><strong id="location_accuracy">Unknown</strong></p>
+                        <p>Accuracy level of the latitude and longitude coordinates in meters.</p>
+                    </li>
+                    <li>
+                        <h3>Altitude Accuracy</h3>
+                        <p><strong id="location_altitude_accuracy">Unknown</strong></p>
+                        <p>Accuracy level of the altitude coordinate in meters.</p>
+                    </li>
+                    <li>
+                        <h3>Heading</h3>
+                        <p><strong id="location_heading">Unknown</strong></p>
+                        <p>Direction of travel, specified in degrees counting clockwise relative to the true north.</p>
+                    </li>
+                    <li>
+                        <h3>Timestamp</h3>
+                        <p><strong id="location_timestamp">Unknown</strong></p>
+                    </li>
+                </ul>
             </div>
             <div data-role="footer" data-position="fixed" data-id="footer">
                 <div data-role="navbar" data-iconpos="top">
                     <ul>
                         <li><a href="#page-home" data-icon="home">Home</a></li>
-                        <li><a href="#page-connection" data-icon="star" class="ui-btn-active ui-state-persist">Connect</a></li>
+                        <li><a href="#page-info" data-icon="star" class="ui-btn-active ui-state-persist">Info</a></li>
                         <li><a href="#page-device" data-icon="gear">Device</a></li>
                         <li><a href="#page-about" data-icon="info">About</a></li>
                     </ul>
@@ -52,13 +87,36 @@
                 <h1>Device</h1>
             </div>
             <div data-role="content" data-theme="c">
-                Device Information
+                <ul data-role="listview">
+                    <li data-role="list-divider">Device Information</li>
+                    <li>
+                        <h3>Name</h3>
+                        <p><strong id="device_name">Unknown</strong></p>
+                    </li>
+                    <li>
+                        <h3>Platform</h3>
+                        <p><strong id="device_platform">Unknown</strong></p>
+                    </li>
+                    <li>
+                        <h3>Version</h3>
+                        <p><strong id="device_version">Unknown</strong></p>
+                    </li>
+                    <li>
+                        <h3>UUID</h3>
+                        <p><strong id="device_uuid">Unknown</strong></p>
+                    </li>
+                    <li data-role="list-divider">PhoneGap</li>
+                    <li>
+                        <h3>Version</h3>
+                        <p><strong id="device_phonegap_version">Unknown</strong></p>
+                    </li>
+                </ul>
             </div>
             <div data-role="footer" data-position="fixed" data-id="footer">
                 <div data-role="navbar" data-iconpos="top">
                     <ul>
                         <li><a href="#page-home" data-icon="home">Home</a></li>
-                        <li><a href="#page-connection" data-icon="star">Connect</a></li>
+                        <li><a href="#page-info" data-icon="star">Info</a></li>
                         <li><a href="#page-device" data-icon="gear" class="ui-btn-active ui-state-persist">Device</a></li>
                         <li><a href="#page-about" data-icon="info">About</a></li>
                     </ul>
@@ -97,7 +155,7 @@
                 <div data-role="navbar" data-iconpos="top">
                     <ul>
                         <li><a href="#page-home" data-icon="home">Home</a></li>
-                        <li><a href="#page-connection" data-icon="star">Connect</a></li>
+                        <li><a href="#page-info" data-icon="star">Info</a></li>
                         <li><a href="#page-device" data-icon="gear">Device</a></li>
                         <li><a href="#page-about" data-icon="info" class="ui-btn-active ui-state-persist">About</a></li>
                     </ul>
