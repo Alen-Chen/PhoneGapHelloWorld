@@ -49,3 +49,26 @@ function checkDevice() {
     $("#device_uuid").text(device.uuid);
     $("#device_version").text(device.version);
 }
+
+function onReadContactSuccess(contacts) {
+    //var contact_list = "<ul data-role=\"listview\">";
+    //contact_list = contacts.length;
+    //for(var i = 0; i < 3; i++) {
+    //    contact_list += "<li><h3>" + "contacts[i].displayName" + "</h3><p>test</p></li>";
+    //}
+    //contact_list += "</ul>";
+    //$("#contact_list").html(contact_list);
+}
+
+function onReadContactError(error) {
+    $("#contact_list").text(error.code + "(", error.message, ")");
+}
+
+function readContact() {
+    var fields = ["*"];
+    var options = new ContactFindOptions();
+    options.filter = "";
+    options.multiple = false;
+    navigator.contacts.find(fields, onReadContactSuccess, onReadContactError, options);
+    return false;
+}
