@@ -1,15 +1,3 @@
-// Wait for PhoneGap to load
-// 
-document.addEventListener("deviceready", onDeviceReady, false);
-
-// PhoneGap is loaded and it is now safe to make calls PhoneGap methods
-//
-function onDeviceReady() {
-    checkConnection();
-    checkGeolocation();
-    checkDevice();
-}
-
 function checkConnection() {
     var networkState = navigator.network.connection.type;
 
@@ -23,6 +11,8 @@ function checkConnection() {
     states[Connection.NONE]     = 'No network connection';
 
     $("#connection_type").text(states[networkState]);
+    delete networkState;
+    delete states;
 }
 
 function onGeolocationSuccess(position) {
@@ -51,13 +41,33 @@ function checkDevice() {
 }
 
 function onReadContactSuccess(contacts) {
-    //var contact_list = "<ul data-role=\"listview\">";
-    //contact_list = contacts.length;
-    //for(var i = 0; i < 3; i++) {
-    //    contact_list += "<li><h3>" + "contacts[i].displayName" + "</h3><p>test</p></li>";
-    //}
-    //contact_list += "</ul>";
-    //$("#contact_list").html(contact_list);
+    var i = 0;
+    var j = 0;
+    var contact_list = "";
+    for(i = 0; i < contacts.length; i++) {
+        contact_list = "";
+        if(contacts[i].displayName == null) {
+            continue;
+        } else {
+            console.log("id = " + contacts[i].id + ", Display name is = " + contacts[i].displayName);
+            console.log("nickname = " + contacts[i].nickname + ", note is = " + contacts[i].note);
+            if(contacts[i].phoneNumbers == null) {
+                continue;
+            } else {
+                contact_list += "<li data-theme=\"c\" class=\"ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li\">";
+                contact_list += "<div class=\"ui-btn-inner ui-li\" aria-hidden=\"true\"><div class=\"ui-btn-text\">";
+                contact_list += "<a href=\"#page-contact-detail\" class=\"ui-link-inherit\">" + contacts[i].displayName;
+                for(j = 0; j < contacts[i].phoneNumbers.length; j++) {
+                    contact_list += " " + contacts[i].phoneNumbers[j].value + " ";
+                }
+                contact_list += "</a></div><span class=\"ui-icon ui-icon-arrow-r ui-icon-shadow\"></span></div></li>";
+            }
+            $("#contact_list").append(contact_list);
+        }
+    }
+    delete i;
+    delete j;
+    delete contact_list;
 }
 
 function onReadContactError(error) {
@@ -68,7 +78,9 @@ function readContact() {
     var fields = ["*"];
     var options = new ContactFindOptions();
     options.filter = "";
-    options.multiple = false;
+    options.multiple = true;
     navigator.contacts.find(fields, onReadContactSuccess, onReadContactError, options);
+    delete fields;
+    delete options;
     return false;
 }

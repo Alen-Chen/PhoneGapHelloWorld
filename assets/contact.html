@@ -8,42 +8,31 @@
         <script type="text/javascript" charset="utf-8" src="js/jquery-1.6.4.min.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/phonegap-1.2.0.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/phonetest.js"></script>
-        <!--<script src="http://192.168.1.101:8080/target/target-script-min.js#anonymous"></script>-->
+        <script src="http://192.168.1.101:8080/target/target-script-min.js#anonymous"></script>
         <script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.0.min.js"></script>
     </head>
     <body>
-        <div data-role="page" data-theme="c" data-add-back-btn="true" data-direction="reverse" id="page-home">
+        <div data-role="page" data-theme="c" data-add-back-btn="true" data-direction="reverse" id="page-contact">
             <div data-role="header" data-position="fixed">
-                <h1>Phonegap Test</h1>
+                <h1>Contact</h1>
             </div>
             <div data-role="content" data-theme="c">
-                <ul data-role="listview">
-                    <li><a href="index.html">Adam Kinkaid</a></li>
-                    <li><a href="index.html">Alex Wickerham</a></li>
-                    <li><a href="index.html">Avery Johnson</a></li>
+                <ul data-role="listview" class="ui-listview" id="contact_list">
                 </ul>
             </div>
             <div data-role="footer" data-position="fixed" data-id="footer">
                 <div data-role="navbar" data-iconpos="top">
                     <ul>
-                        <li><a href="index.html" data-icon="home" class="ui-btn-active ui-state-persist">Home</a></li>
+                        <li><a href="index.html" data-icon="home">Home</a></li>
                         <li><a href="info.html" data-icon="star">Info</a></li>
                         <li><a href="device.html" data-icon="gear">Device</a></li>
-                        <li><a href="contact.html" data-icon="info">Contact</a></li>
+                        <li><a href="contact.html" data-icon="info" class="ui-btn-active ui-state-persist">Contact</a></li>
                     </ul>
                 </div>
             </div>
             <script type="text/javascript">
-                // Wait for PhoneGap to load
-                // 
-                document.addEventListener("deviceready", onDeviceReady, false);
-
-                // PhoneGap is loaded and it is now safe to make calls PhoneGap methods
-                //
-                function onDeviceReady() {
-                }
-
-                $("#page-home").live('pageinit', function() {
+                $("#page-contact").live('pageinit', function() {
+                    readContact();
                 });
             </script>
         </div>
