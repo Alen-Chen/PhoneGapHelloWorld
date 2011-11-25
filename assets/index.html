@@ -17,33 +17,177 @@
                 <h1>Phonegap Test</h1>
             </div>
             <div data-role="content" data-theme="c">
+            </div>
+            <div data-role="footer" data-position="fixed" data-id="footer">
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#page-home" data-icon="home" class="ui-btn-active ui-state-persist">Home</a></li>
+                        <li><a href="#page-info" data-icon="star">Info</a></li>
+                        <li><a href="#page-device" data-icon="gear">Device</a></li>
+                        <li><a href="#page-contact" data-icon="info">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $("#page-home").live('pageinit', function() {
+                    window.localStorage.setItem("contact_read", 0);
+                    init_db();
+                });
+            </script>
+        </div>
+        <div data-role="page" data-theme="c" data-add-back-btn="true" data-direction="reverse" id="page-info">
+            <div data-role="header" data-position="fixed">
+                <h1>Info</h1>
+            </div>
+            <div data-role="content" data-theme="c">
                 <ul data-role="listview">
-                    <li><a href="index.html">Adam Kinkaid</a></li>
-                    <li><a href="index.html">Alex Wickerham</a></li>
-                    <li><a href="index.html">Avery Johnson</a></li>
+                    <li data-role="list-divider">Network Information</li>
+                    <li>
+                        <h3>Current Type</h3>
+                        <p><strong id="connection_type">Unknown</strong></p>
+                    </li>
+                    <li data-role="list-divider">Geolocation</li>
+                    <li>
+                        <h3>Current Position</h3>
+                        <p><strong id="location_lat_lng">Unknown</strong></p>
+                    </li>
+                    <li>
+                        <h3>Altitude</h3>
+                        <p><strong id="location_altitude">Unknown</strong></p>
+                        <p>Height of the position in meters above the ellipsoid.</p>
+                    </li>
+                    <li>
+                        <h3>Accuracy</h3>
+                        <p><strong id="location_accuracy">Unknown</strong></p>
+                        <p>Accuracy level of the latitude and longitude coordinates in meters.</p>
+                    </li>
+                    <li>
+                        <h3>Altitude Accuracy</h3>
+                        <p><strong id="location_altitude_accuracy">Unknown</strong></p>
+                        <p>Accuracy level of the altitude coordinate in meters.</p>
+                    </li>
+                    <li>
+                        <h3>Heading</h3>
+                        <p><strong id="location_heading">Unknown</strong></p>
+                        <p>Direction of travel, specified in degrees counting clockwise relative to the true north.</p>
+                    </li>
+                    <li>
+                        <h3>Timestamp</h3>
+                        <p><strong id="location_timestamp">Unknown</strong></p>
+                    </li>
                 </ul>
             </div>
             <div data-role="footer" data-position="fixed" data-id="footer">
                 <div data-role="navbar" data-iconpos="top">
                     <ul>
-                        <li><a href="index.html" data-icon="home" class="ui-btn-active ui-state-persist">Home</a></li>
-                        <li><a href="info.html" data-icon="star">Info</a></li>
-                        <li><a href="device.html" data-icon="gear">Device</a></li>
-                        <li><a href="contact.html" data-icon="info">Contact</a></li>
+                        <li><a href="#page-home" data-icon="home">Home</a></li>
+                        <li><a href="#page-info" data-icon="star" class="ui-btn-active ui-state-persist">Info</a></li>
+                        <li><a href="#page-device" data-icon="gear">Device</a></li>
+                        <li><a href="#page-contact" data-icon="info">Contact</a></li>
                     </ul>
                 </div>
             </div>
             <script type="text/javascript">
-                // Wait for PhoneGap to load
-                // 
-                document.addEventListener("deviceready", onDeviceReady, false);
-
-                // PhoneGap is loaded and it is now safe to make calls PhoneGap methods
-                //
-                function onDeviceReady() {
-                }
-
-                $("#page-home").live('pageinit', function() {
+                $("#page-info").live('pageinit', function() {
+                    checkConnection();
+                    checkGeolocation();
+                });
+            </script>
+        </div>
+        <div data-role="page" data-theme="c" data-add-back-btn="true" data-direction="reverse" id="page-device">
+            <div data-role="header" data-position="fixed">
+                <h1>Device</h1>
+            </div>
+            <div data-role="content" data-theme="c">
+                <ul data-role="listview">
+                    <li data-role="list-divider">Device Information</li>
+                    <li>
+                        <h3>Name</h3>
+                        <p><strong id="device_name">Unknown</strong></p>
+                    </li>
+                    <li>
+                        <h3>Platform</h3>
+                        <p><strong id="device_platform">Unknown</strong></p>
+                    </li>
+                    <li>
+                        <h3>Version</h3>
+                        <p><strong id="device_version">Unknown</strong></p>
+                    </li>
+                    <li>
+                        <h3>UUID</h3>
+                        <p><strong id="device_uuid">Unknown</strong></p>
+                    </li>
+                    <li data-role="list-divider">PhoneGap</li>
+                    <li>
+                        <h3>Version</h3>
+                        <p><strong id="device_phonegap_version">Unknown</strong></p>
+                    </li>
+                </ul>
+            </div>
+            <div data-role="footer" data-position="fixed" data-id="footer">
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#page-home" data-icon="home">Home</a></li>
+                        <li><a href="#page-info" data-icon="star">Info</a></li>
+                        <li><a href="#page-device" data-icon="gear" class="ui-btn-active ui-state-persist">Device</a></li>
+                        <li><a href="#page-contact" data-icon="info">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $("#page-device").live('pageinit', function() {
+                    checkDevice();
+                });
+            </script>            
+        </div>
+        <div data-role="page" data-theme="c" data-add-back-btn="true" data-direction="reverse" id="page-contact">
+            <div data-role="header" data-position="fixed">
+                <h1>Contact</h1>
+            </div>
+            <div data-role="content" data-theme="c" id="show_contact">
+            </div>
+            <div data-role="footer" data-position="fixed" data-id="footer">
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#page-home" data-icon="home">Home</a></li>
+                        <li><a href="#page-info" data-icon="star">Info</a></li>
+                        <li><a href="#page-device" data-icon="gear">Device</a></li>
+                        <li><a href="#page-contact" data-icon="info" class="ui-btn-active ui-state-persist">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $("#page-contact").live('pageinit', function() {
+                    if(window.localStorage.getItem("contact_read") == 0) {
+                        console.log("[phongegap] contact_read == 0, readContact and set contact_read to 1");
+                        window.localStorage.setItem("contact_read", 1);
+                        readContact();
+                    } else {
+                        console.log("[phongegap] contact_read != 0");
+                    }
+                });
+            </script>
+        </div>
+        <div data-role="page" data-theme="c" data-add-back-btn="true" data-direction="reverse" id="page-detail">
+            <div data-role="header" data-position="fixed">
+                <h1>Detail</h1>
+            </div>
+            <div data-role="content" data-theme="c" id="contact_detail">
+            </div>
+            <div data-role="footer" data-position="fixed" data-id="footer">
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#page-home" data-icon="home">Home</a></li>
+                        <li><a href="#page-info" data-icon="star">Info</a></li>
+                        <li><a href="#page-device" data-icon="gear">Device</a></li>
+                        <li><a href="#page-contact" data-icon="info" class="ui-btn-active ui-state-persist">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $("#page-detail").live('pageshow', function() {
+                    var key_value = window.localStorage.getItem("contact_name");
+                    readContactDetail(key_value);
                 });
             </script>
         </div>
