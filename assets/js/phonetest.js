@@ -94,6 +94,7 @@ function onReadContactDetailSuccess(contacts) {
     $("#contacts_detail_data div[data-role=collapsible]").collapsible({refresh:true});
     delete content;
     delete i;
+    $('body').removeClass('ui-loading');
 }
 
 function onReadContactSuccess(contacts) {
@@ -124,6 +125,7 @@ function onReadContactSuccess(contacts) {
     delete j;
     delete contact_list;
     $("#contact_list").listview();
+    $('body').removeClass('ui-loading');
 }
 
 function insert_local_data(key_name, key_value) {
@@ -133,10 +135,12 @@ function insert_local_data(key_name, key_value) {
 
 function onReadContactError(error) {
     console.log("onReadContactError: error.code = " + error.code + ", with message :" + error.message);
+    $('body').removeClass('ui-loading');
 }
 
 function onReadContactDetailError(error) {
     console.log("onReadContactDetailError: error.code = " + error.code + ", with message :" + error.message);
+    $('body').removeClass('ui-loading');
 }
 
 function readContactDetail(contact_pattern) {
@@ -165,8 +169,10 @@ var db;
 var dbCreated = false;
 
 function init_db() {
+    $('body').addClass('ui-loading');
     db = window.openDatabase("phonetest", "1.0", "phonetest", 5*1024*1024);
     db.transaction(populate_db, transaction_error, populate_db_success);
+    $('body').removeClass('ui-loading');
 }
 
 function transaction_error(tx, error) {

@@ -6,7 +6,7 @@
         <title>PhoneGap</title>
         <link rel="stylesheet" href="jquery.mobile-1.0.min.css" type="text/css">
         <script type="text/javascript" charset="utf-8" src="js/jquery-1.6.4.min.js"></script>
-        <script type="text/javascript" charset="utf-8" src="js/phonegap-1.2.0.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/phonegap-1.2.0.min.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/phonetest.js"></script>
         <!--<script src="http://192.168.1.101:8080/target/target-script-min.js#anonymous"></script>-->
         <script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.0.min.js"></script>
@@ -88,9 +88,11 @@
                 </div>
             </div>
             <script type="text/javascript">
-                $("#page-info").live('pageinit', function() {
+                $("#page-info").live('pageshow', function() {
+                    $('body').addClass('ui-loading');
                     checkConnection();
                     checkGeolocation();
+                    $('body').removeClass('ui-loading');
                 });
             </script>
         </div>
@@ -136,7 +138,9 @@
             </div>
             <script type="text/javascript">
                 $("#page-device").live('pageinit', function() {
+                    $('body').addClass('ui-loading');
                     checkDevice();
+                    $('body').removeClass('ui-loading');
                 });
             </script>            
         </div>
@@ -161,6 +165,7 @@
                     if(window.localStorage.getItem("contact_read") == 0) {
                         console.log("[phongegap] contact_read == 0, readContact and set contact_read to 1");
                         window.localStorage.setItem("contact_read", 1);
+                        $('body').addClass('ui-loading');
                         readContact();
                     } else {
                         console.log("[phongegap] contact_read != 0");
@@ -187,6 +192,7 @@
             <script type="text/javascript">
                 $("#page-detail").live('pageshow', function() {
                     var key_value = window.localStorage.getItem("contact_name");
+                    $('body').addClass('ui-loading');
                     readContactDetail(key_value);
                 });
             </script>
