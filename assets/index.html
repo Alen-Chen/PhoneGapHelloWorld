@@ -7,7 +7,12 @@
         <link rel="stylesheet" href="jquery.mobile-1.0.min.css" type="text/css">
         <script type="text/javascript" charset="utf-8" src="js/jquery-1.6.4.min.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/phonegap-1.2.0.min.js"></script>
-        <script type="text/javascript" charset="utf-8" src="js/phonetest.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/localstoragedb.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/devices_helper.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/info_helper.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/contact_helper.js"></script>
+        <!--<script type="text/javascript" charset="utf-8" src="js/contact.js"></script>-->
         <!--<script src="http://192.168.1.101:8080/target/target-script-min.js#anonymous"></script>-->
         <script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.0.min.js"></script>
     </head>
@@ -153,10 +158,12 @@
             <div data-role="footer" data-position="fixed" data-id="footer">
                 <div data-role="navbar" data-iconpos="top">
                     <ul>
+                        <li><a href="#page-contact" data-icon="arrow-l" onclick="UpdateOffset(false);">Previus</a></li>
                         <li><a href="#page-home" data-icon="home">Home</a></li>
                         <li><a href="#page-info" data-icon="star">Info</a></li>
                         <li><a href="#page-device" data-icon="gear">Device</a></li>
-                        <li><a href="#page-contact" data-icon="info" class="ui-btn-active ui-state-persist">Contact</a></li>
+                        <!--<li><a href="#page-contact" data-icon="info" class="ui-btn-active ui-state-persist">Contact</a></li>-->
+                        <li><a href="#page-contact" data-icon="arrow-r" onclick="UpdateOffset(true);">Next</a></li>
                     </ul>
                 </div>
             </div>
