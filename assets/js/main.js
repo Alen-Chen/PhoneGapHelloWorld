@@ -8,122 +8,28 @@ function onDeviceReady() {
     delete onDeviceReady;
 }
 
-var db;
-var dbCreated = false;
+var DB_NAME = "phonetest"
 
 function init_db() {
     $('body').addClass('ui-loading');
-    db = window.openDatabase("phonetest", "1.0", "phonetest", 5*1024*1024);
-    db.transaction(populate_db, transaction_error, populate_db_success);
+    var lib = new localStorageDB(DB_NAME);
+    if(lib.isNew()) {
+        lib.createTable("names", ["contact_id", "formatted", "familyName", "givenName", "middleName", "honorificPrefix", "honorificSuffix"]);
+        lib.createTable("numbers", ["contact_id", "type", "value", "pref"]);
+        lib.createTable("emails", ["contact_id", "type", "value", "pref"]);
+        lib.createTable("addresses", ["contact_id", "type", "formatted", "streetAddress", "locality", "region", "postalCode", "country", "pref"]);
+        lib.createTable("imses", ["contact_id", "type", "value", "pref"]);
+        lib.createTable("organizations", ["contact_id", "type", "name", "department", "title", "pref"]);
+        lib.createTable("photo", ["contact_id", "type", "value", "pref"]);
+        lib.createTable("categories", ["contact_id", "type", "value", "pref"]);
+        lib.createTable("urls", ["contact_id", "type", "value", "pref"]);
+        lib.createTable("contacts", ["internal_id", "displayName", "nickname", "birthday", "note"]);
+        lib.commit();
+    }
     $('body').removeClass('ui-loading');
     delete init_db;
 }
 
-function transaction_error(tx, error) {
-    console.log("Database Error: " + error);
-    db = null;
-}
-
-function populate_db_success() {
-    dbCreated = true;
-    db = null;
-    delete pupulate_db_success;
-}
-
-function populate_db(tx) {
-    var sql_names    = "CREATE TABLE IF NOT EXISTS names (" +
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "contact_id INTEGER, " +
-                        "formatted VARCHAR(128), " +
-                        "familyName VARCHAR(128), " +
-                        "givenName VARCHAR(128), " +
-                        "middleName VARCHAR(128), " +
-                        "honorificPrefix VARCHAR(128), " +
-                        "honorificSuffix VARCHAR(128))";
-    tx.executeSql(sql_names);
-
-    var sql_numbers  = "CREATE TABLE IF NOT EXISTS numbers (" +
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "contact_id INTEGER, " +
-                        "type VARCHAR(128), " +
-                        "value VARCHAR(128), " +
-                        "pref BOOL)";
-    tx.executeSql(sql_numbers);
-
-    var sql_emails   = "CREATE TABLE IF NOT EXISTS emails (" +
-                       "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                       "contact_id INTEGER, " +
-                       "type VARCHAR(128), " +
-                       "value VARCHAR(128), " +
-                       "pref BOOL)";
-    tx.executeSql(sql_emails);
-
-    var sql_addresses = "CREATE TABLE IF NOT EXISTS addresses (" +
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "contact_id INTEGER, " +
-                        "type VARCHAR(128), " +
-                        "formatted VARCHAR(128), " +
-                        "streetAddress VARCHAR(128), " +
-                        "locality VARCHAR(128), " +
-                        "region VARCHAR(128), " +
-                        "postalCode VARCHAR(128), " +
-                        "country VARCHAR(128), " +
-                        "pref BOOL)";
-    tx.executeSql(sql_addresses);
-
-    var sql_Imses   = "CREATE TABLE IF NOT EXISTS imses (" +
-                       "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                       "contact_id INTEGER, " +
-                       "type VARCHAR(128), " +
-                       "value VARCHAR(128), " +
-                       "pref BOOL)";
-    tx.executeSql(sql_Imses);
-
-    var sql_organizations   = "CREATE TABLE IF NOT EXISTS organizations (" +
-                      "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                      "contact_id INTEGER, " +
-                      "type VARCHAR(128), " +
-                      "name VARCHAR(128), " +
-                      "department VARCHAR(128), " +
-                      "title VARCHAR(128), " +
-                      "pref BOOL)";
-    tx.executeSql(sql_organizations);
-
-    var sql_photos   = "CREATE TABLE IF NOT EXISTS photos (" +
-                      "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                      "contact_id INTEGER, " +
-                      "type VARCHAR(128), " +
-                      "value VARCHAR(128), " +
-                      "pref BOOL)";
-    tx.executeSql(sql_photos);
-
-    var sql_categories = "CREATE TABLE IF NOT EXISTS categories (" +
-                       "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                       "contact_id INTEGER, " +
-                       "type VARCHAR(128), " +
-                       "value VARCHAR(128), " +
-                       "pref BOOL)";
-    tx.executeSql(sql_categories);
-
-    var sql_urls = "CREATE TABLE IF NOT EXISTS urls (" +
-                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                         "contact_id INTEGER, " +
-                         "type VARCHAR(128), " +
-                         "value VARCHAR(128), " +
-                         "pref BOOL)";
-    tx.executeSql(sql_urls);
-
-    var sql_contacts = "CREATE TABLE IF NOT EXISTS contacts (" +
-                       "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                       "internal_id INTEGER, " +
-                       "displayName VARCHAR(128), " +
-                       "nickname VARCHAR(128), " +
-                       "birthday DATETIME, " +
-                       "note VARCHAR(128))";
-    tx.executeSql(sql_contacts);
-    
-    delete populate_db;
-}
 
 function sleep( mseconds ) {
     var timer = new Date();

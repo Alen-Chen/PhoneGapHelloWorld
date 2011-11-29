@@ -198,7 +198,7 @@
             </div>
             <script type="text/javascript">
                 $("#page-detail").live('pageshow', function() {
-                    var key_value = window.localStorage.getItem("contact_name");
+                    var key_value = window.localStorage.getItem("contact_id");
                     $('body').addClass('ui-loading');
                     readContactDetail(key_value);
                 });

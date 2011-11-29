@@ -1,39 +1,81 @@
-var gSQL = new Array();
-
-function executeInsert() {
-    var db;
-    db = window.openDatabase("phonetest", "1.0", "phonetest", 5*1024*1024);
-    db.transaction(exec_db, transaction_error, exec_db_success);    
-}
-
-function insertContacts(contacts) {
-    var sql_main = "";
-    var sql_name = "";
-    var sql_value = "";
-
-    sql_main = "INSERT INTO contacts (";
-    sql_name = "internal_id,displayName,nickname,birthday,note";
-    sql_main += sql_name + ") VALUES (";
-
-    if(contacts.id != null)             sql_value += contacts.id + ","; else sql_value += ",";
-    if(contacts.displayName != null)    sql_value += "'" + contacts.displayName + "',"; else sql_value += "'',";
-    if(contacts.nickname != null)       sql_value += "'" + contacts.nickname + "',"; else sql_value += "'',";
-    if(contacts.birthday != null)       sql_value += "'" + contacts.birthday + "',"; else sql_value += "'',";
-    if(contacts.note != null)           sql_value += "'" + contacts.note + "'"; else sql_value += "''";
-    
-    sql_main += sql_value + ");"
-    console.log("insert sql = "+sql_main);
-    gSQL.push(sql_main);
-}
-
-function exec_db(tx) {
-    while(gSQL.length != 0) {
-        tx.executeSql(gSQL.shift());
+function readContactsFromDB(id, limit) {
+    var lib = new localStorageDB(DB_NAME);
+    var results = null;
+    if(lib.tableExists("contacts")) {
+        if(id == -1) {
+            results = lib.query("contacts", null, limit);
+        } else {
+            results = lib.query("contacts", {ID: id}, limit)
+        }
+        
+        if(results == null || results.length <= 0) {
+            console.log("The contacts, contacts, is empty");
+        } else {
+            console.log("The contacts, contacts, has " + results.length+ " entries");
+        }
     }
+    delete lib;
+    return results;
 }
 
-function exec_db_success() {
-    db = null;
+function isContactExist(contact_internal_id) {
+    var lib = new localStorageDB(DB_NAME);
+    var results = null;
+    var feedback = false;
+    if(lib.tableExists("contacts")) {
+        results = lib.query("contacts", {internal_id: contact_internal_id});
+        if(results != null && results.length > 0) {
+            //console.log("The table, contacts internal_id = " + contact_internal_id + ", the entry exists");
+            feedback = true;
+        } else {
+            console.log("The table, contacts internal_id = " + contact_internal_id + ", the entry does not exist");
+            feedback = false;
+        }
+    } else {
+        console.log("The table, contacts, doesn't exist");
+    }
+    delete lib;
+    return feedback;
+}
+
+function updateContact(contact) {
+    var lib = new localStorageDB(DB_NAME);
+    var results = null;
+    if(lib.tableExists("contacts")) {
+        results = lib.query("contacts", {internal_id: contact.id});
+        if(results != null && results.length > 0) {
+            //console.log("Updating contacts (ID = "+ results[0].ID +" and internal_id = " +contact.id+ ")");
+            lib.update("contacts", 
+                {ID: results[0].ID}, 
+                function(row) {
+                    row.internal_id = contact.id;
+                    row.displayName = contact.displayName;
+                    row.nickname = contact.nickname;
+                    row.birthday = contact.birthday;
+                    row.note = contact.note;
+                }
+            );
+            lib.commit();
+        } else {
+            console.log("The table, contacts, the entry is not found");
+        }
+    } else {
+        console.log("The table, contacts, doesn't exist");
+    }
+    delete lib;
+}
+
+function insertContact(contact) {
+    var lib = new localStorageDB(DB_NAME);
+    if(lib.tableExists("contacts")) {
+        lib.insert("contacts", {internal_id: contact.id, displayName: contact.displayName, nickname: contact.nickname, birthday: contact.birthday, note: contact.note});
+        lib.commit();
+    } else {
+        console.log("table contacts doesn't exist");
+        return false;
+    }
+    delete lib;
+    return true;
 }
 
 function sort_phone_fields(data, comment) {
@@ -87,117 +129,116 @@ function onReadContactSuccess(contacts) {
     var contact_list = "";
     var showName = "";
     var showNameType = 0;
-
-    $("#show_contact").html("<ul data-role=\"listview\" id=\"contact_list\"></ul>");
-
-    for(i = 0; i < contacts.length; i++) {        
-        
+    var showInfoType = 0;
+    var readFromDB = null;
+    console.log("Check point 1");
+    for(i = 0; i < contacts.length; i++) {
         showNameType = 0;
-        showName = "";
-        contact_list = "";
+        showInfoType = 0;
+        if(contacts[i].email != null && contacts[i].emails.length > 0) {
+            showInfoType += 1;
+        }
+        if(contacts[i].phoneNumbers != null && contacts[i].phoneNumbers.length > 0) {
+            showInfoType += 2;
+        }
         if(contacts[i].displayName == null) {
             if(contacts[i].nickname == null) {
                 if(contacts[i].name == null) {
                     showNameType = 0;
                 } else {
                     if(contacts[i].name.formatted != null) {
-                        showName = contacts[i].name.formatted;
                         showNameType = 3; //name
                     } else if(contacts[i].name.givenName != null && contacts[i].name.familyName != null) {
-                        showName = contacts[i].name.givenName + " " + contacts[i].name.familyName;
                         showNameType = 4; //name
                     }
                 }
             } else {
-                showName = contacts[i].nickname;
-                showNameType = 2; //nickname
+                showNameType = 2;
             }
         } else {
-            showName = contacts[i].displayName;
-            showNameType = 1; //displayName
+            showNameType = 1;
         }
 
-        if(showNameType == 1) {
-            if(contacts[i].phoneNumbers == null && contacts[i].emails == null) {
-                continue;
+        if(showNameType == 1 && showInfoType > 0) {
+            if(isContactExist(contacts[i].id)){
+                updateContact(contacts[i]);
             } else {
-                contact_list += "<li><a href=\"#page-detail\" onclick=\"insert_local_data('contact_name', '" + contacts[i].displayName + "');\">" + contacts[i].displayName;
-                contact_list += "<span class=\"ui-li-count\">";
-                if(contacts[i].phoneNumbers != null) {
-                    if(contacts[i].phoneNumbers.length > 1) {
-                        contact_list += contacts[i].phoneNumbers.length + " numbers";
-                    } else {
-                        contact_list += "1 number";
-                    }
-                    if(contacts[i].emails != null) {
-                        contact_list += "/";
-                    }
+                if(insertContact(contacts[i])) {
+                    console.log("insert contact success, id = " + contacts[i].id);
+                } else {
+                    console.log("insert contact fail, id = " + contacts[i].id);
                 }
-                if(contacts[i].emails != null) {
-                    if(contacts[i].emails.length > 1) {
-                        contact_list += contacts[i].emails.length + " emails";                        
-                    } else {
-                        contact_list += "1 email";
-                    }
-                    if(contacts[i].birthday != null) {
-                        contact_list += "/"
-                    }
-                }
-                if(contacts[i].birthday != null) {
-                    contact_list += "birthday";
-                }
-                contact_list += "</span>";
-                contact_list += "</a></li>";
-                $("#contact_list").append(contact_list);
-                //insertContacts(contacts[i]);
-            }
+            }            
         }
     }
-    //executeInsert();
+    console.log("Check point 2");
+
+    $("#show_contact").html("<ul data-role=\"listview\" id=\"contact_list\"></ul>");
+    readFromDB = readContactsFromDB(-1, 10);
+    for(i = 0; i < readFromDB.length; i++) {
+        contact_list = "";
+        contact_list += "<li><a href=\"#page-detail\" onclick=\"insert_local_data('contact_id', '" + readFromDB[i].ID + "');\">" + readFromDB[i].displayName;
+        contact_list += "<span class=\"ui-li-count\">";
+        if(readFromDB[i].phoneNumbers != null) {
+            if(readFromDB[i].phoneNumbers.length > 1) {
+                contact_list += readFromDB[i].phoneNumbers.length + " numbers";
+            } else {
+                contact_list += "1 number";
+            }
+            if(readFromDB[i].emails != null) {
+                contact_list += "/";
+            }
+        }
+        if(readFromDB[i].emails != null) {
+            if(readFromDB[i].emails.length > 1) {
+                contact_list += readFromDB[i].emails.length + " emails";                        
+            } else {
+                contact_list += "1 email";
+            }
+            if(readFromDB[i].birthday != null) {
+                contact_list += "/"
+            }
+        }
+        if(readFromDB[i].birthday != null) {
+            contact_list += "birthday";
+        }
+        contact_list += "</span>";
+        contact_list += "</a></li>";
+        $("#contact_list").append(contact_list);
+    }
+
     $("#contact_list").listview();
     $('body').removeClass('ui-loading');
 }
 
-function onReadContactDetailError(error) {
-    console.log("onReadContactDetailError: error.code = " + error.code + ", with message :" + error.message);
-    $('body').removeClass('ui-loading');
-}
-
 function readContactDetail(contact_pattern) {
-    var fields = ["*"];
-    var options = new ContactFindOptions();
-    options.filter = contact_pattern;
-    options.multiple = true;
-    navigator.contacts.find(fields, onReadContactDetailSuccess, onReadContactDetailError, options);
-    return false;
-}
-
-function onReadContactDetailSuccess(contacts) {
     var content = "";
     var i = 0;
+    var readFromDB = null;
+    readFromDB = readContactsFromDB(contact_pattern, 1);
     $("#contact_detail").html(content);
-    if(contacts.length != 0) {
+    if(readFromDB.length != 0) {
         content += "<div data-role=\"collapsible\" data-collapsed=\"false\" data-theme=\"b\" data-content-theme=\"c\" id=\"contacts_detail_data\">";
-        if(contacts[0].displayName != null) {
-            content += "    <h3>" + contacts[0].displayName + "</h3>";
+        if(readFromDB[0].displayName != null) {
+            content += "    <h3>" + readFromDB[0].displayName + "</h3>";
         } else {
-            content += "    <h3>" + contacts[0].id + "</h3>";
+            content += "    <h3>" + readFromDB[0].id + "</h3>";
         }
 
-        if(contacts[0].phoneNumbers != null) {
-            content += sort_phone_fields(contacts[0].phoneNumbers, "Other phone numbers");
+        if(readFromDB[0].phoneNumbers != null) {
+            content += sort_phone_fields(readFromDB[0].phoneNumbers, "Other phone numbers");
         }
 
-        if(contacts[0].emails != null) {
-            content += sort_phone_fields(contacts[0].emails, "Other email address");
+        if(readFromDB[0].emails != null) {
+            content += sort_phone_fields(readFromDB[0].emails, "Other email address");
         }
 
-        if(contacts[0].birthday != null) {
-            content += "<p><b>Birthday</b> " + contacts[0].birthday +"</p>";
+        if(readFromDB[0].birthday != null) {
+            content += "<p><b>Birthday</b> " + readFromDB[0].birthday +"</p>";
         }
 
-        if(contacts[0].note != null) {
-            content += "<p><b>Note</b> " + contacts[0].note +"</p>";
+        if(readFromDB[0].note != null) {
+            content += "<p><b>Note</b> " + readFromDB[0].note +"</p>";
         }
 
         content += "</div>";
@@ -206,4 +247,6 @@ function onReadContactDetailSuccess(contacts) {
     $("#contacts_detail_data").collapsible({refresh:true});
     $("#contacts_detail_data div[data-role=collapsible]").collapsible({refresh:true});
     $('body').removeClass('ui-loading');
+
+    return false;
 }
