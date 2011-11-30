@@ -20,7 +20,7 @@ function init_db() {
         lib.createTable("addresses", ["contact_id", "type", "formatted", "streetAddress", "locality", "region", "postalCode", "country", "pref"]);
         lib.createTable("imses", ["contact_id", "type", "value", "pref"]);
         lib.createTable("organizations", ["contact_id", "type", "name", "department", "title", "pref"]);
-        lib.createTable("photo", ["contact_id", "type", "value", "pref"]);
+        lib.createTable("photos", ["contact_id", "type", "value", "pref"]);
         lib.createTable("categories", ["contact_id", "type", "value", "pref"]);
         lib.createTable("urls", ["contact_id", "type", "value", "pref"]);
         lib.createTable("contacts", ["internal_id", "displayName", "nickname", "birthday", "note"]);

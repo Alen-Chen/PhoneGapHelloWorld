@@ -55,6 +55,17 @@ function updateContact(contact) {
                     row.note = contact.note;
                 }
             );
+            lib.update("names", 
+                    {contact_id: results[0].ID}, 
+                    function(row) {
+                        row.internal_id = contact.id;
+                        row.displayName = contact.displayName;
+                        row.nickname = contact.nickname;
+                        row.birthday = contact.birthday;
+                        row.note = contact.note;
+                    }
+                );
+
             lib.commit();
         } else {
             console.log("The table, contacts, the entry is not found");
@@ -67,13 +78,93 @@ function updateContact(contact) {
 
 function insertContact(contact) {
     var lib = new localStorageDB(DB_NAME);
+    var result = null;
+    var new_id = 0;
+    var i = 0;
     if(lib.tableExists("contacts")) {
         lib.insert("contacts", {internal_id: contact.id, displayName: contact.displayName, nickname: contact.nickname, birthday: contact.birthday, note: contact.note});
         lib.commit();
+        results = lib.query("contacts", {internal_id: contact.id});
+        if(results != null && results.length > 0) {
+            new_id = results[0].ID
+        }
     } else {
         console.log("table contacts doesn't exist");
         return false;
     }
+    
+    if(lib.tableExists("names")) {
+        if(contact.names != null && contact.names.length > 0) {
+            for(i = 0; i < contact.names.length; i++) {
+                lib.insert("names", {contact_id: new_id, type: contact.names[i].type, value: contact.names[i].value, pref: contact.names[i].pref});
+            }
+            lib.commit();
+        }
+    }
+
+    if(lib.tableExists("emails")) {
+        if(contact.emails != null && contact.emails.length > 0) {
+            for(i = 0; i < contact.emails.length; i++) {
+                lib.insert("emails", {contact_id: new_id, type: contact.emails[i].type, value: contact.emails[i].value, pref: contact.emails[i].pref});
+            }
+            lib.commit();
+        }
+    }
+
+    if(lib.tableExists("addresses")) {
+        if(contact.addresses != null && contact.addresses.length > 0) {
+            for(i = 0; i < contact.addresses.length; i++) {
+                lib.insert("addresses", {contact_id: new_id, type: contact.addresses[i].type, formatted: contact.addresses[i].formatted, streetAddress: contact.addresses[i].streetAddress, locality: contact.addresses[i].locality, region: contact.addresses[i].region, postalCode: contact.addresses[i].postalCode, country: contact.addresses[i].country, pref: contact.addresses[i].pref});
+            }
+            lib.commit();
+        }
+    }
+
+    if(lib.tableExists("imses")) {
+        if(contact.imses != null && contact.imses.length > 0) {
+            for(i = 0; i < contact.imses.length; i++) {
+                lib.insert("imses", {contact_id: new_id, type: contact.imses[i].type, value: contact.imses[i].value, pref: contact.imses[i].pref});
+            }
+            lib.commit();
+        }
+    }
+
+    if(lib.tableExists("organizations")) {
+        if(contact.organizations != null && contact.organizations.length > 0) {
+            for(i = 0; i < contact.organizations.length; i++) {
+                lib.insert("organizations", {contact_id: new_id, type: contact.organizations[i].type, name: contact.organizations[i].name, department: contact.organizations[i].department, title: contact.organizations[i].title, pref: contact.organizations[i].pref});
+            }
+            lib.commit();
+        }
+    }
+
+    if(lib.tableExists("photos")) {
+        if(contact.photos != null && contact.photos.length > 0) {
+            for(i = 0; i < contact.photos.length; i++) {
+                lib.insert("photos", {contact_id: new_id, type: contact.photos[i].type, value: contact.photos[i].value, pref: contact.photos[i].pref});
+            }
+            lib.commit();
+        }
+    }
+
+    if(lib.tableExists("categories")) {
+        if(contact.categories != null && contact.categories.length > 0) {
+            for(i = 0; i < contact.categories.length; i++) {
+                lib.insert("categories", {contact_id: new_id, type: contact.categories[i].type, value: contact.categories[i].value, pref: contact.categories[i].pref});
+            }
+            lib.commit();
+        }
+    }
+
+    if(lib.tableExists("urls")) {
+        if(contact.urls != null && contact.urls.length > 0) {
+            for(i = 0; i < contact.urls.length; i++) {
+                lib.insert("urls", {contact_id: new_id, type: contact.urls[i].type, value: contact.urls[i].value, pref: contact.urls[i].pref});
+            }
+            lib.commit();
+        }
+    }
+
     delete lib;
     return true;
 }

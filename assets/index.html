@@ -198,9 +198,11 @@
             </div>
             <script type="text/javascript">
                 $("#page-detail").live('pageshow', function() {
+                    $('body').addClass('ui-loading');
                     var key_value = window.localStorage.getItem("contact_id");
                     $('body').addClass('ui-loading');
                     readContactDetail(key_value);
+                    $('body').removeClass('ui-loading');
                 });
             </script>
         </div>
